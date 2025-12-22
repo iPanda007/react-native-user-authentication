@@ -403,7 +403,7 @@ export function ShopContent({ activeTab }: { activeTab: string }) {
           <Text className="text-2xl font-bold text-gray-900">Featured Items</Text>
         </View>
         
-        <View className="grid grid-cols-2 gap-4">
+        <View className="grid gap-3">
           {shopItems.slice(0, 4).map((item) => (
             <TouchableOpacity 
               key={item.id}
@@ -428,11 +428,11 @@ export function ShopContent({ activeTab }: { activeTab: string }) {
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <Text className="text-2xl font-bold text-gray-900 mb-6">All Products</Text>
         
-        <View className="space-y-3">
+        <View className="space-y-6">
           {shopItems.map((item) => (
             <TouchableOpacity 
               key={item.id}
-              className="flex-row items-center p-4 bg-gray-50 rounded-2xl border border-gray-100"
+              className="flex-row mb-3 items-center p-4 bg-gray-50 rounded-2xl border border-gray-100"
               activeOpacity={0.7}
             >
               <View className="bg-white p-3 rounded-xl mr-4">
@@ -607,7 +607,7 @@ export function AboutContent({ activeTab }: { activeTab: string }) {
           <Text className="text-2xl font-bold text-gray-900">Contact</Text>
         </View>
         
-        <View className="space-y-3">
+        <View className=" grid gap-3">
           {contactInfo.map((contact, index) => (
             <View 
               key={index}
