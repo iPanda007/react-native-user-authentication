@@ -1,39 +1,38 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/contexts/AuthContext';
-import { View, Text, ActivityIndicator } from 'react-native';
+import SplashScreen from '@/components/SplashScreen';
 
 export default function Index() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (!isLoading) {
-      if (user) {
+      // Show splash for minimum time, then navigate
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+        if (user) {
+          router.push('/home');
+        } else {
+          router.push('/login');
+        }
+      }, 2500); // Minimum splash display time
 
-        router.push('/home');
-      } else {
-
-        router.push('/login');
-      }
+      return () => clearTimeout(timer);
     }
   }, [user, isLoading, router]);
 
 
-  if (isLoading) {
+  if (isLoading || showSplash) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#2563eb" />
-        <Text style={{ marginTop: 16, fontSize: 16, color: '#6b7280' }}>
-          Checking authentication...
-        </Text>
-      </View>
+      <SplashScreen 
+        message={isLoading ? "Checking authentication..." : "Welcome back!"}
+        onAnimationComplete={() => setShowSplash(false)}
+      />
     );
   }
 
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Redirecting...</Text>
-    </View>
-  );
+  return null; // Will redirect immediately
 }

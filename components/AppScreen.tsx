@@ -31,18 +31,28 @@ export default function AppScreen({ children }: AppScreenProps) {
     }
   };
 
+  const getIcon = (route: string) => {
+    switch (route) {
+      case 'home': return 'home';
+      case 'shop': return 'storefront';
+      case 'about': return 'information-circle';
+      case 'profile': return 'person';
+      default: return 'apps';
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      
+
 
       <View className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" pointerEvents="none" />
 
 
       <View className="items-center pt-4 pb-2" pointerEvents="none">
         <View className="flex-row items-center justify-center">
-          <View className="bg-white/80 backdrop-blur-lg rounded-full p-2 mr-3">
-            <Ionicons name="apps" size={24} color="#2563eb" />
+          <View className="bg-white/80 backdrop-blur-lg rounded-full p-2 mr-1">
+            <Ionicons name={getIcon(currentRoute) as any} size={24} color="#2563eb" />
           </View>
           <Text className="text-2xl font-bold text-gray-900">
             {getTitle(currentRoute)}
@@ -51,15 +61,15 @@ export default function AppScreen({ children }: AppScreenProps) {
       </View>
 
 
-      <View 
-        className="flex-1 bg-white" 
+      <View
+        className="flex-1 bg-white"
         style={{ pointerEvents: 'box-none' }}
       >
         {children}
       </View>
 
 
-      <BottomNav activeTab={currentRoute} onTabChange={() => {}} />
+      <BottomNav activeTab={currentRoute} onTabChange={() => { }} />
     </SafeAreaView>
   );
 }

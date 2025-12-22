@@ -14,7 +14,7 @@ export default function AppLayout() {
             name="home"
             options={{
               headerShown: false,
-
+              gestureEnabled:false
             }}
           />
           <Stack.Screen

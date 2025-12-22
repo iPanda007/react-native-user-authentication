@@ -22,6 +22,7 @@ export default function RootLayout() {
       <LogoutProvider>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="login" options={{ headerShown: false,gestureEnabled:true }} />
           <Stack.Screen name="signup" options={{ headerShown: false,gestureEnabled:true }} />
           
@@ -44,3 +45,4 @@ export default function RootLayout() {
     </AuthProvider>
   );
 }
+

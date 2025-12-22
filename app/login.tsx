@@ -44,7 +44,7 @@ export default function LoginScreen() {
 
     try {
       const result = await login(email, password);
-      
+
       if (result.success) {
         setShowSuccessAlert(true);
       } else {
@@ -81,12 +81,12 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       className="flex-1"
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      
+
 
       <View className="absolute inset-0 bg-white" />
 
@@ -123,7 +123,6 @@ export default function LoginScreen() {
               autoCapitalize="none"
               autoCorrect={false}
             />
-
 
             <InputField
               label="Password"
@@ -168,8 +167,7 @@ export default function LoginScreen() {
         </View>
       </ScrollView>
 
-
-      <StunningAlert
+      {/* <StunningAlert
         visible={showSuccessAlert}
         title="Welcome Back! 🎉"
         message="You have been successfully logged in. Enjoy your experience!"
@@ -177,7 +175,7 @@ export default function LoginScreen() {
         type="success"
         buttonText="Continue"
         onButtonPress={handleSuccessAlert}
-      />
+      /> */}
 
 
       <StunningAlert
