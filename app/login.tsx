@@ -1,0 +1,193 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
+import { Link, useRouter } from 'expo-router';
+import { useAuth } from '@/contexts/AuthContext';
+import { Ionicons } from '@expo/vector-icons';
+import StunningAlert from '@/components/StunningAlert';
+import InputField from '@/components/InputField';
+import { useFormValidation, emailValidation, passwordValidation } from '@/hooks/useFormValidation';
+
+const ICON_SIZE = 96; // Approximate width * 0.2
+
+export default function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [errorAlertData, setErrorAlertData] = useState({ title: '', message: '' });
+  const { login } = useAuth();
+  const router = useRouter();
+
+  // Form validation using the custom hook
+  const { errors, validateAll, clearFieldError } = useFormValidation([
+    { name: 'email', value: email, validation: emailValidation },
+    { name: 'password', value: password, validation: passwordValidation },
+  ]);
+
+  const handleLogin = async () => {
+    const validation = validateAll();
+    if (!validation.isValid) return;
+
+    setIsLoading(true);
+
+    try {
+      const result = await login(email, password);
+      
+      if (result.success) {
+        setShowSuccessAlert(true);
+      } else {
+        setErrorAlertData({
+          title: 'Sign In Failed',
+          message: result.error || 'Login failed. Please check your credentials and try again.'
+        });
+        setShowErrorAlert(true);
+      }
+    } catch {
+      setErrorAlertData({
+        title: 'Sign In Failed',
+        message: 'An unexpected error occurred. Please try again.'
+      });
+      setShowErrorAlert(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSuccessAlert = () => {
+    setShowSuccessAlert(false);
+    router.push('./home');
+  };
+
+  const handleErrorAlert = () => {
+    setShowErrorAlert(false);
+    clearFieldError('email');
+    clearFieldError('password');
+  };
+
+  return (
+    <KeyboardAvoidingView 
+      className="flex-1"
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+      
+      {/* White Background */}
+      <View className="absolute inset-0 bg-white" />
+
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View className="flex-1 px-3 justify-center min-h-[600px]">
+          {/* Header */}
+          <View className="items-center mb-6 pt-10">
+            <View className="mb-8">
+              <View className="bg-white/80 rounded-full p-2 border border-white/30">
+                <Ionicons name="person-circle" size={ICON_SIZE} color="#2563eb" />
+              </View>
+            </View>
+            <Text className="text-4xl font-black text-gray-900 mb-2 text-center">Welcome Back</Text>
+            <Text className="text-lg text-gray-600 text-center leading-6">Sign in to your account</Text>
+          </View>
+
+          {/* Form */}
+          <View className="w-full bg-white/80 backdrop-blur-lg rounded-3xl p-4 border border-white/20">
+
+            {/* Email Input */}
+            <InputField
+              label="Email"
+              value={email}
+              onChangeText={(text: string) => {
+                setEmail(text);
+                if (errors.email) {
+                  clearFieldError('email');
+                }
+              }}
+              placeholder="Enter your email"
+              error={errors.email}
+              icon="mail-outline"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+
+            {/* Password Input */}
+            <InputField
+              label="Password"
+              value={password}
+              onChangeText={(text: string) => {
+                setPassword(text);
+                if (errors.password) {
+                  clearFieldError('password');
+                }
+              }}
+              placeholder="Enter your password"
+              error={errors.password}
+              icon="lock-closed-outline"
+              secureTextEntry={!showPassword}
+              showPasswordToggle={true}
+              onTogglePassword={togglePasswordVisibility}
+              showPassword={showPassword}
+              autoCapitalize="none"
+            />
+
+            {/* Login Button */}
+            <TouchableOpacity
+              className={`bg-blue-600 py-3.5 rounded-2xl items-center mt-2.5 border-2 border-white/10 ${isLoading ? 'bg-gray-400' : 'bg-blue-600'}`}
+              onPress={handleLogin}
+              disabled={isLoading}
+            >
+              <Text className="text-white text-base font-semibold">
+                {isLoading ? 'Signing In...' : 'Sign In'}
+              </Text>
+            </TouchableOpacity>
+
+            {/* Sign Up Link */}
+            <View className="flex-row justify-center items-center mt-4">
+              <Text className="text-gray-600 text-base">Don&apos;t have an account? </Text>
+              <Link href="./signup" asChild>
+                <TouchableOpacity>
+                  <Text className="text-blue-600 text-base font-semibold">Sign Up</Text>
+                </TouchableOpacity>
+              </Link>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+
+      {/* Stunning Success Alert */}
+      <StunningAlert
+        visible={showSuccessAlert}
+        title="Welcome Back! 🎉"
+        message="You have been successfully logged in. Enjoy your experience!"
+        icon="checkmark-circle"
+        type="success"
+        buttonText="Continue"
+        onButtonPress={handleSuccessAlert}
+      />
+
+      {/* Stunning Error Alert */}
+      <StunningAlert
+        visible={showErrorAlert}
+        title={errorAlertData.title}
+        message={errorAlertData.message}
+        icon="alert-circle"
+        iconColor="#ef4444"
+        type="error"
+        buttonText="Try Again"
+        onButtonPress={handleErrorAlert}
+      />
+    </KeyboardAvoidingView>
+  );
+}
