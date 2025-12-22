@@ -31,13 +31,14 @@ function LoadingContent() {
 
 export function HomeContent({ activeTab }: TabContentProps) {
   const { user, isLoading } = useAuth();
-  const { handleLogout } = useLogout();
+  const { handleLogout, isLoggingOut } = useLogout();
 
-  if (isLoading) {
+  if (isLoading && !isLoggingOut) {
     return <LoadingContent />;
   }
 
-  if (!user) {
+  // Don't show black screen during logout or when no user
+  if (!user || isLoggingOut) {
     return null;
   }
 
@@ -211,13 +212,14 @@ export function HomeContent({ activeTab }: TabContentProps) {
 
 export function ProfileContent({ activeTab }: { activeTab: string }) {
   const { user, isLoading } = useAuth();
-  const { handleLogout } = useLogout();
+  const { handleLogout, isLoggingOut } = useLogout();
 
-  if (isLoading) {
+  if (isLoading && !isLoggingOut) {
     return <LoadingContent />;
   }
 
-  if (!user) {
+  // Don't show black screen during logout or when no user
+  if (!user || isLoggingOut) {
     return null;
   }
 
@@ -338,12 +340,14 @@ export function ProfileContent({ activeTab }: { activeTab: string }) {
 
 export function ShopContent({ activeTab }: { activeTab: string }) {
   const { user, isLoading } = useAuth();
+  const { isLoggingOut } = useLogout();
 
-  if (isLoading) {
+  if (isLoading && !isLoggingOut) {
     return <LoadingContent />;
   }
 
-  if (!user) {
+  // Don't show black screen during logout or when no user
+  if (!user || isLoggingOut) {
     return null;
   }
 

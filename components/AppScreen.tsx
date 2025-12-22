@@ -8,6 +8,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import BottomNav from '@/components/BottomNav';
 import { useTabNavigationManager } from '@/hooks/useTabNavigationManager';
+import { useLogout } from '@/contexts/LogoutContext';
 
 interface AppScreenProps {
   children: React.ReactNode;
@@ -15,7 +16,8 @@ interface AppScreenProps {
 
 
 export default function AppScreen({ children }: AppScreenProps) {
-
+  const { isLoggingOut } = useLogout();
+  
   const {
     currentRoute,
   } = useTabNavigationManager();
@@ -40,6 +42,15 @@ export default function AppScreen({ children }: AppScreenProps) {
       default: return 'apps';
     }
   };
+
+  // During logout, return a minimal loading state instead of null to prevent black screen
+  if (isLoggingOut) {
+    return (
+      <SafeAreaView className="flex-1 bg-white items-center justify-center">
+        <Text className="text-gray-600">Signing out...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white">

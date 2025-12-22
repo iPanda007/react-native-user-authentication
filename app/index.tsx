@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLogout } from '@/contexts/LogoutContext';
 import SplashScreen from '@/components/SplashScreen';
 
 export default function Index() {
   const { user, isLoading } = useAuth();
+  const { isLoggingOut } = useLogout();
   const router = useRouter();
   const [showSplash, setShowSplash] = useState(true);
 
@@ -13,16 +15,19 @@ export default function Index() {
       // Show splash for minimum time, then navigate
       const timer = setTimeout(() => {
         setShowSplash(false);
-        if (user) {
-          router.push('/home');
-        } else {
-          router.push('/login');
+        // Don't redirect if user is logging out - let LogoutContext handle it
+        if (!isLoggingOut) {
+          if (user) {
+            router.push('/home');
+          } else {
+            router.push('/login');
+          }
         }
       }, 2500); // Minimum splash display time
 
       return () => clearTimeout(timer);
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading, router, isLoggingOut]);
 
 
   if (isLoading || showSplash) {

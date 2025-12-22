@@ -25,32 +25,28 @@ export function LogoutProvider({ children }: { children: ReactNode }) {
   };
 
   const confirmLogout = async () => {
+    // Immediately hide the alert
     setShowLogoutAlert(false);
+    
+    // Set logout state FIRST to prepare components
     setIsLoggingOut(true);
     
     try {
-
-      router.replace('/logout-redirect');
-      
-
       await logout();
+      
+      // Small delay to let React process state changes
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Navigate after state is processed
+      router.replace('/login');
       
     } catch (error) {
       console.error('Logout error:', error);
       
-
-      try {
-        await logout();
-      } catch (authError) {
-
-      }
+      // Even on error, redirect to login for security
+      await new Promise(resolve => setTimeout(resolve, 100));
+      router.replace('/login');
       
-
-      setTimeout(() => {
-        router.replace('/login');
-      }, 100);
-    } finally {
-      setIsLoggingOut(false);
     }
   };
 
@@ -67,18 +63,21 @@ export function LogoutProvider({ children }: { children: ReactNode }) {
       cancelLogout
     }}>
       {children}
-      <StunningAlert
-        visible={showLogoutAlert}
-        title="Sign Out?"
-        message="Are you sure you want to sign out of your account?"
-        icon="log-out"
-        iconColor="#ef4444"
-        type="error"
-        buttonText="Sign Out"
-        cancelButtonText="Cancel"
-        onButtonPress={confirmLogout}
-        onCancelPress={cancelLogout}
-      />
+      {/* Don't render StunningAlert during logout to prevent black screen */}
+      {!isLoggingOut && (
+        <StunningAlert
+          visible={showLogoutAlert}
+          title="Sign Out?"
+          message="Are you sure you want to sign out of your account?"
+          icon="log-out"
+          iconColor="#ef4444"
+          type="error"
+          buttonText="Sign Out"
+          cancelButtonText="Cancel"
+          onButtonPress={confirmLogout}
+          onCancelPress={cancelLogout}
+        />
+      )}
     </LogoutContext.Provider>
   );
 }

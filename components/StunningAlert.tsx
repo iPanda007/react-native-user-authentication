@@ -70,7 +70,7 @@ export default function StunningAlert({
   return (
     <Modal
       transparent={true}
-      animationType="fade"
+      animationType="none"
       visible={visible}
       onRequestClose={onCancelPress || onButtonPress}
     >

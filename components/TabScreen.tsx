@@ -1,6 +1,7 @@
 import React from 'react';
 import { HomeContent, AboutContent, ProfileContent, ShopContent } from '@/components/TabContent';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLogout } from '@/contexts/LogoutContext';
 import { View, Text, ActivityIndicator } from 'react-native';
 
 interface TabScreenProps {
@@ -16,9 +17,10 @@ const contentMap = {
 
 export default function TabScreen({ activeTab }: TabScreenProps) {
   const { user, isLoading } = useAuth();
+  const { isLoggingOut } = useLogout();
   
 
-  if (isLoading) {
+  if (isLoading && !isLoggingOut) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' }}>
         <ActivityIndicator size="large" color="#2563eb" />
@@ -28,7 +30,8 @@ export default function TabScreen({ activeTab }: TabScreenProps) {
   }
   
 
-  if (!user && activeTab !== 'about') {
+  // Don't show content during logout or when no user (except for about page)
+  if ((!user && activeTab !== 'about') || isLoggingOut) {
     return null;
   }
   
