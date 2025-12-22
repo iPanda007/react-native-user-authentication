@@ -17,7 +17,7 @@ const contentMap = {
 export default function TabScreen({ activeTab }: TabScreenProps) {
   const { user, isLoading } = useAuth();
   
-  // Show loading while checking authentication
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' }}>
@@ -27,8 +27,7 @@ export default function TabScreen({ activeTab }: TabScreenProps) {
     );
   }
   
-  // If no user, return null (should be handled by logout flow)
-  // Exception: About page doesn't require authentication
+
   if (!user && activeTab !== 'about') {
     return null;
   }

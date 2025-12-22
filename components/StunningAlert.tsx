@@ -81,18 +81,18 @@ export default function StunningAlert({
             borderColor: colors.borderColor,
             borderWidth: 2,
           }]}>
-            {/* Icon */}
+
             <View style={[styles.iconContainer, { backgroundColor: colors.backgroundColor }]}>
               <Ionicons name={icon} size={48} color={colors.iconColor} />
             </View>
 
-            {/* Content */}
+
             <View style={styles.content}>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.message}>{message}</Text>
             </View>
 
-            {/* Buttons */}
+
             <View style={styles.buttonContainer}>
               {onCancelPress && (
                 <TouchableOpacity

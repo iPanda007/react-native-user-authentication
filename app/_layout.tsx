@@ -9,7 +9,7 @@ import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { LogoutProvider } from '@/contexts/LogoutContext';
 import AppScreen from '@/components/AppScreen';
 
-// Layout wrapper for routes that should use AppScreen
+
 function AppScreenLayout({ children }: { children: React.ReactNode }) {
   return <AppScreen>{children}</AppScreen>;
 }
@@ -22,15 +22,17 @@ export default function RootLayout() {
       <LogoutProvider>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack>
-          <Stack.Screen name="login" options={{ headerShown: false,gestureEnabled:false }} />
-          <Stack.Screen name="signup" options={{ headerShown: false,gestureEnabled:false }} />
+          <Stack.Screen name="login" options={{ headerShown: false,gestureEnabled:true }} />
+          <Stack.Screen name="signup" options={{ headerShown: false,gestureEnabled:true }} />
           
-          {/* Routes wrapped with AppScreen layout */}
+
           <Stack.Screen 
             name="(app)" 
             options={{ 
               headerShown: false,
-              header: () => null
+              header: () => null,
+
+
             }}
           />
           

@@ -2,6 +2,23 @@
 
 This document explains how swipe gestures work between the app tabs (home, shop, about, profile) in the React Native Expo app.
 
+## Current Implementation
+
+✅ **CUSTOM GESTURE SYSTEM**: Now uses custom swipe gestures instead of Stack gestures
+✅ **AppScreen Integration**: Swipe gestures integrated directly in AppScreen component
+✅ **Navigation Order**: home → shop → about → profile → home (cyclical)
+✅ **Gesture Handlers**: Applied to main content area with PanResponder
+✅ **Tab Synchronization**: Swipe gestures sync with BottomNav tab state
+✅ **Conflict Resolution**: Disabled Stack gestures to avoid navigation conflicts
+
+## What Was Fixed
+
+- **Black Screen Issue**: Replaced problematic Stack gestures with custom gesture implementation
+- **Navigation Conflict**: Disabled Stack gestures to prevent conflicts with custom tab navigation
+- **Custom Gesture System**: Implemented swipe detection using PanResponder in AppScreen
+- **Tab Order Navigation**: Created proper cyclical navigation: home → shop → about → profile → home
+- **State Synchronization**: Swipe gestures properly update active tab state
+
 ## What's Enabled
 
 ✅ **Expo Router Built-in Gestures**: The app now uses Expo Router's built-in gesture navigation system
@@ -12,19 +29,21 @@ This document explains how swipe gestures work between the app tabs (home, shop,
 
 ## How It Works
 
-### 1. Stack Configuration
-- `gestureEnabled: true` - Enables all gesture navigation
-- `animation: 'fade'` - Smooth fade transitions
-- `animationTypeForReplace: 'pop'` - Proper screen replacement behavior
+### 1. Custom Gesture System
+- **PanResponder Integration**: Uses React Native's PanResponder for swipe detection
+- **AppScreen Component**: Gestures are applied to the main content area
+- **Swipe Detection**: Threshold of 50px distance and 0.3 velocity for reliable detection
+- **Tab Synchronization**: Swipe gestures update both navigation state and active tab
 
 ### 2. Navigation Method
-- Uses `router.navigate()` for cross-screen navigation
-- Maintains navigation stack for gesture history
-- Preserves back navigation behavior
+- **Cyclical Navigation**: home → shop → about → profile → home
+- **router.navigate()**: Uses Expo Router's navigate for screen transitions
+- **State Management**: Syncs with BottomNav component and useActiveTab hook
+- **No Stack Conflicts**: Stack gestures disabled to prevent navigation conflicts
 
 ### 3. Screen Structure
 ```
-(app)/
+AppScreen (with custom gestures)
 ├── home.tsx      ← Swipe here to go to shop
 ├── shop.tsx      ← Swipe here to go to about  
 ├── about.tsx     ← Swipe here to go to profile

@@ -10,16 +10,16 @@ export default function Index() {
   useEffect(() => {
     if (!isLoading) {
       if (user) {
-        // User is logged in, navigate to home
+
         router.push('/home');
       } else {
-        // User is not logged in, navigate to login
+
         router.push('/login');
       }
     }
   }, [user, isLoading, router]);
 
-  // Show loading indicator while checking authentication
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

@@ -52,7 +52,7 @@ export function useFormValidation(fields: FormField[]) {
   };
 }
 
-// Common validation functions
+
 export const emailValidation = (value: string): string | undefined => {
   if (!value.trim()) return 'Email is required';
   

@@ -19,7 +19,7 @@ interface TabContentProps {
   activeTab?: string;
 }
 
-// Loading component
+
 function LoadingContent() {
   return (
     <View style={styles.loadingContainer}>
@@ -33,12 +33,10 @@ export function HomeContent({ activeTab }: TabContentProps) {
   const { user, isLoading } = useAuth();
   const { handleLogout } = useLogout();
 
-  // Show loading spinner while checking authentication
   if (isLoading) {
     return <LoadingContent />;
   }
 
-  // If not authenticated, return null (let parent handle navigation)
   if (!user) {
     return null;
   }
@@ -77,7 +75,7 @@ export function HomeContent({ activeTab }: TabContentProps) {
         </View>
       </View>
 
-      {/* User Profile Card */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <View className="flex-row items-center mb-8">
           <View className="bg-blue-500/20 p-3 rounded-2xl mr-4">
@@ -131,7 +129,7 @@ export function HomeContent({ activeTab }: TabContentProps) {
         </View>
       </View>
 
-      {/* Status Card */}
+
       <View className="bg-emerald-50 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-emerald-200">
         <View className="flex-row items-center justify-between mb-4">
           <View className="flex-row items-center">
@@ -148,7 +146,7 @@ export function HomeContent({ activeTab }: TabContentProps) {
         </Text>
       </View>
 
-      {/* Features Grid */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <View className="flex-row items-center mb-6">
           <View className="bg-yellow-500/20 p-3 rounded-2xl mr-4">
@@ -177,7 +175,7 @@ export function HomeContent({ activeTab }: TabContentProps) {
         </View>
       </View>
 
-      {/* Stats Card */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <Text className="text-2xl font-bold text-center text-gray-900 mb-6">Your Activity</Text>
         <View className="grid grid-cols-3 gap-4">
@@ -215,12 +213,10 @@ export function ProfileContent({ activeTab }: { activeTab: string }) {
   const { user, isLoading } = useAuth();
   const { handleLogout } = useLogout();
 
-  // Show loading spinner while checking authentication
   if (isLoading) {
     return <LoadingContent />;
   }
 
-  // If not authenticated, return null (let parent handle navigation)
   if (!user) {
     return null;
   }
@@ -259,9 +255,9 @@ export function ProfileContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* Profile Stats */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
-        <Text className="text-2xl font-bold text-gray-900 mb-6">Account Statistics</Text>
+        <Text className="text-2xl font-bold text-center text-gray-900 mb-6">Account Statistics</Text>
         <View className="grid grid-cols-2 gap-4">
           <View className="items-center">
             <View className="bg-blue-100 p-3 rounded-2xl mb-2">
@@ -294,7 +290,7 @@ export function ProfileContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* Settings Options */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <Text className="text-2xl font-bold text-gray-900 mb-6">Settings</Text>
         
@@ -321,7 +317,7 @@ export function ProfileContent({ activeTab }: { activeTab: string }) {
         ))}
       </View>
 
-      {/* Quick Actions */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <Text className="text-2xl font-bold  text-center text-gray-900 mb-6">Quick Actions</Text>
         <TouchableOpacity 
@@ -343,12 +339,10 @@ export function ProfileContent({ activeTab }: { activeTab: string }) {
 export function ShopContent({ activeTab }: { activeTab: string }) {
   const { user, isLoading } = useAuth();
 
-  // Show loading spinner while checking authentication
   if (isLoading) {
     return <LoadingContent />;
   }
 
-  // If not authenticated, return null (let parent handle navigation)
   if (!user) {
     return null;
   }
@@ -396,7 +390,7 @@ export function ShopContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* Featured Items */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <View className="flex-row items-center mb-6">
           <View className="bg-yellow-500/20 p-3 rounded-2xl mr-4">
@@ -426,7 +420,7 @@ export function ShopContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* All Items */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <Text className="text-2xl font-bold text-gray-900 mb-6">All Products</Text>
         
@@ -475,12 +469,10 @@ export function ShopContent({ activeTab }: { activeTab: string }) {
 export function AboutContent({ activeTab }: { activeTab: string }) {
   const { isLoading } = useAuth();
 
-  // Show loading spinner while checking authentication
   if (isLoading) {
     return <LoadingContent />;
   }
 
-  // About page doesn't require authentication
 
   const appInfo = {
     name: 'User Authentication App',
@@ -557,7 +549,7 @@ export function AboutContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* App Features */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <View className="flex-row items-center mb-6">
           <View className="bg-blue-500/20 p-3 rounded-2xl mr-4">
@@ -578,7 +570,7 @@ export function AboutContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* Tech Stack */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <View className="flex-row items-center mb-6">
           <View className="bg-purple-500/20 p-3 rounded-2xl mr-4">
@@ -602,7 +594,7 @@ export function AboutContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* Contact Information */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <View className="flex-row items-center mb-6">
           <View className="bg-green-500/20 p-3 rounded-2xl mr-4">
@@ -634,7 +626,7 @@ export function AboutContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* App Statistics */}
+
       <View className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 mx-3 mb-6 border border-gray-200">
         <Text className="text-2xl font-bold text-gray-900 mb-6">Statistics</Text>
         <View className="grid grid-cols-3 gap-4">
@@ -662,7 +654,7 @@ export function AboutContent({ activeTab }: { activeTab: string }) {
         </View>
       </View>
 
-      {/* Copyright */}
+
       <View className="items-center mb-8 px-3">
         <Text className="text-gray-500 text-center">
           © 2025 User Authentication App
@@ -678,7 +670,6 @@ export function AboutContent({ activeTab }: { activeTab: string }) {
   );
 }
 
-// Styles
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,

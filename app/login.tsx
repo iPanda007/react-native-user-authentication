@@ -15,7 +15,9 @@ import StunningAlert from '@/components/StunningAlert';
 import InputField from '@/components/InputField';
 import { useFormValidation, emailValidation, passwordValidation } from '@/hooks/useFormValidation';
 
-const ICON_SIZE = 96; // Approximate width * 0.2
+
+
+const ICON_SIZE = 96;
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -28,7 +30,7 @@ export default function LoginScreen() {
   const { login } = useAuth();
   const router = useRouter();
 
-  // Form validation using the custom hook
+
   const { errors, validateAll, clearFieldError } = useFormValidation([
     { name: 'email', value: email, validation: emailValidation },
     { name: 'password', value: password, validation: passwordValidation },
@@ -85,12 +87,12 @@ export default function LoginScreen() {
     >
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       
-      {/* White Background */}
+
       <View className="absolute inset-0 bg-white" />
 
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 px-3 justify-center min-h-[600px]">
-          {/* Header */}
+
           <View className="items-center mb-6 pt-10">
             <View className="mb-8">
               <View className="bg-white/80 rounded-full p-2 border border-white/30">
@@ -101,10 +103,10 @@ export default function LoginScreen() {
             <Text className="text-lg text-gray-600 text-center leading-6">Sign in to your account</Text>
           </View>
 
-          {/* Form */}
+
           <View className="w-full bg-white/80 backdrop-blur-lg rounded-3xl p-4 border border-white/20">
 
-            {/* Email Input */}
+
             <InputField
               label="Email"
               value={email}
@@ -122,7 +124,7 @@ export default function LoginScreen() {
               autoCorrect={false}
             />
 
-            {/* Password Input */}
+
             <InputField
               label="Password"
               value={password}
@@ -142,7 +144,7 @@ export default function LoginScreen() {
               autoCapitalize="none"
             />
 
-            {/* Login Button */}
+
             <TouchableOpacity
               className={`bg-blue-600 py-3.5 rounded-2xl items-center mt-2.5 border-2 border-white/10 ${isLoading ? 'bg-gray-400' : 'bg-blue-600'}`}
               onPress={handleLogin}
@@ -153,7 +155,7 @@ export default function LoginScreen() {
               </Text>
             </TouchableOpacity>
 
-            {/* Sign Up Link */}
+
             <View className="flex-row justify-center items-center mt-4">
               <Text className="text-gray-600 text-base">Don&apos;t have an account? </Text>
               <Link href="./signup" asChild>
@@ -166,7 +168,7 @@ export default function LoginScreen() {
         </View>
       </ScrollView>
 
-      {/* Stunning Success Alert */}
+
       <StunningAlert
         visible={showSuccessAlert}
         title="Welcome Back! 🎉"
@@ -177,7 +179,7 @@ export default function LoginScreen() {
         onButtonPress={handleSuccessAlert}
       />
 
-      {/* Stunning Error Alert */}
+
       <StunningAlert
         visible={showErrorAlert}
         title={errorAlertData.title}

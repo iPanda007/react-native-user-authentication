@@ -9,7 +9,7 @@ export default function LogoutRedirect() {
 
   useEffect(() => {
     if (!isLoading) {
-      // Always navigate to login - this ensures we never show "unmatched route"
+
       router.replace('/login');
     }
   }, [isLoading, router]);

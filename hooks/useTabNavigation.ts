@@ -1,9 +1,6 @@
 import { useRouter } from 'expo-router';
 
-/**
- * Hook for managing tab navigation with swipe gestures
- * Provides smooth navigation between tabs in the correct order
- */
+
 export function useTabNavigation() {
   const router = useRouter();
 

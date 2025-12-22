@@ -29,23 +29,23 @@ export function LogoutProvider({ children }: { children: ReactNode }) {
     setIsLoggingOut(true);
     
     try {
-      // Navigate to logout-redirect page first
+
       router.replace('/logout-redirect');
       
-      // Clear auth state first (this is most important)
+
       await logout();
       
     } catch (error) {
       console.error('Logout error:', error);
       
-      // Force logout even if there's an error
+
       try {
         await logout();
       } catch (authError) {
-        // Suppress auth errors - they're not critical
+
       }
       
-      // Navigate to login as fallback
+
       setTimeout(() => {
         router.replace('/login');
       }, 100);

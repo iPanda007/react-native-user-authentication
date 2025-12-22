@@ -15,7 +15,9 @@ import StunningAlert from '@/components/StunningAlert';
 import InputField from '@/components/InputField';
 import { useFormValidation, emailValidation, passwordValidation, nameValidation } from '@/hooks/useFormValidation';
 
-const ICON_SIZE = 96; // Approximate width * 0.2
+
+
+const ICON_SIZE = 96;
 
 export default function SignupScreen() {
   const [name, setName] = useState('');
@@ -29,7 +31,7 @@ export default function SignupScreen() {
   const { signup } = useAuth();
   const router = useRouter();
 
-  // Form validation using the custom hook
+
   const { errors, validateAll, clearFieldError } = useFormValidation([
     { name: 'name', value: name, validation: nameValidation },
     { name: 'email', value: email, validation: emailValidation },
@@ -88,12 +90,12 @@ export default function SignupScreen() {
     >
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       
-      {/* White Background */}
+
       <View className="absolute inset-0 bg-white" />
 
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 px-3 justify-center min-h-[600px]">
-          {/* Header */}
+
           <View className="items-center mb-6 pt-10">
             <View className="mb-8">
               <View className="bg-white/80 rounded-full p-2 border border-white/30">
@@ -104,10 +106,10 @@ export default function SignupScreen() {
             <Text className="text-lg text-gray-600 text-center leading-6">Sign up to get started</Text>
           </View>
 
-          {/* Form */}
+
           <View className="w-full bg-white/80 backdrop-blur-lg rounded-3xl p-4 border border-white/20">
 
-            {/* Name Input */}
+
             <InputField
               label="Full Name"
               value={name}
@@ -124,7 +126,7 @@ export default function SignupScreen() {
               autoCorrect={false}
             />
 
-            {/* Email Input */}
+
             <InputField
               label="Email"
               value={email}
@@ -142,7 +144,7 @@ export default function SignupScreen() {
               autoCorrect={false}
             />
 
-            {/* Password Input */}
+
             <InputField
               label="Password"
               value={password}
@@ -166,7 +168,7 @@ export default function SignupScreen() {
               Password must be at least 6 characters long
             </Text>
 
-            {/* Signup Button */}
+
             <TouchableOpacity
               className={`bg-blue-600 py-3.5 rounded-2xl items-center mt-2.5 border-2 border-white/10 ${isLoading ? 'bg-gray-400' : 'bg-blue-600'}`}
               onPress={handleSignup}
@@ -177,7 +179,7 @@ export default function SignupScreen() {
               </Text>
             </TouchableOpacity>
 
-            {/* Login Link */}
+
             <View className="flex-row justify-center items-center mt-4">
               <Text className="text-gray-600 text-base">Already have an account? </Text>
               <Link href="./login" asChild>
@@ -190,7 +192,7 @@ export default function SignupScreen() {
         </View>
       </ScrollView>
 
-      {/* Stunning Success Alert */}
+
       <StunningAlert
         visible={showSuccessAlert}
         title="Account Created Successfully! 🎉"
@@ -201,7 +203,7 @@ export default function SignupScreen() {
         onButtonPress={handleSuccessAlert}
       />
 
-      {/* Stunning Error Alert */}
+
       <StunningAlert
         visible={showErrorAlert}
         title={errorAlertData.title}

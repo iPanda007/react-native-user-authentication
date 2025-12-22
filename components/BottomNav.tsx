@@ -13,8 +13,10 @@ interface BottomNavProps {
   onTabChange?: (tab: string) => void;
 }
 
+
 export default function BottomNav({ activeTab = 'home', onTabChange }: BottomNavProps) {
   const router = useRouter();
+
 
   const navItems = [
     {
@@ -31,7 +33,6 @@ export default function BottomNav({ activeTab = 'home', onTabChange }: BottomNav
       activeIcon: 'storefront' as const,
       route: '/shop' as const,
     },
-   
     {
       key: 'about',
       label: 'About',
@@ -39,7 +40,7 @@ export default function BottomNav({ activeTab = 'home', onTabChange }: BottomNav
       activeIcon: 'information-circle' as const,
       route: '/about' as const,
     },
-     {
+    {
       key: 'profile',
       label: 'Profile',
       icon: 'person-outline' as const,
@@ -49,12 +50,12 @@ export default function BottomNav({ activeTab = 'home', onTabChange }: BottomNav
   ];
 
   const handleNavigation = (route: '/home' | '/shop' | '/about' | '/profile') => {
-    // Update tab state
+
     if (onTabChange) {
       const tabKey = route.replace('/', '') as string;
       onTabChange(tabKey);
     }
-    // Navigate to route using href for better Expo Router compatibility
+
     router.navigate(route);
   };
 

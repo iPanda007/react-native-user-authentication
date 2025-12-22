@@ -18,7 +18,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock database for demonstration purposes
+
 const mockUsers: User[] = [
   {
     id: '1',
@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load user from AsyncStorage on app start
+
   useEffect(() => {
     loadUser();
   }, []);
@@ -65,15 +65,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
-      // Find user in mock database
+
       const foundUser = mockUsers.find(u => u.email === email);
       
       if (!foundUser) {
         return { success: false, error: 'Invalid email or password. Please check your credentials.' };
       }
 
-      // In a real app, you'd verify the password hash
-      // For this demo, we'll assume any password works for existing users
+
       if (password.length < 1) {
         return { success: false, error: 'Password is required.' };
       }
@@ -87,23 +86,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signup = async (name: string, email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
-      // Check if user already exists
+
       const existingUser = mockUsers.find(u => u.email === email);
       if (existingUser) {
         return { success: false, error: 'User with this email already exists.' };
       }
 
-      // Create new user
+
       const newUser: User = {
         id: Date.now().toString(), // Simple ID generation
         name,
         email,
       };
 
-      // Add to mock database
+
       mockUsers.push(newUser);
       
-      // Don't auto-login after signup - user needs to login manually
+
       return { success: true };
     } catch (error) {
       return { success: false, error: 'An error occurred during signup.' };
@@ -112,18 +111,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-      // Clear user state first (most important)
+
       setUser(null);
       
-      // Try to clear storage silently
+
       try {
         await AsyncStorage.clear();
       } catch {
-        // Silently ignore storage errors - they're not critical
-        // The user state being cleared is what actually logs them out
+
       }
     } catch {
-      // Even if there's an error, ensure user state is cleared
+
       setUser(null);
     }
   };
