@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'expo-router';
+import SplashScreen from '@/components/SplashScreen';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLogout } from '@/contexts/LogoutContext';
-import SplashScreen from '@/components/SplashScreen';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 export default function Index() {
   const { user, isLoading } = useAuth();
@@ -18,9 +18,9 @@ export default function Index() {
         // Don't redirect if user is logging out - let LogoutContext handle it
         if (!isLoggingOut) {
           if (user) {
-            router.push('/home');
+            router.replace('/(app)/home');
           } else {
-            router.push('/login');
+            router.replace('/login');
           }
         }
       }, 2500); // Minimum splash display time

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import InputField from '@/components/InputField';
+import StunningAlert from '@/components/StunningAlert';
+import { useAuth } from '@/contexts/AuthContext';
+import { useLogout } from '@/contexts/LogoutContext';
+import { emailValidation, passwordValidation, useFormValidation } from '@/hooks/useFormValidation';
+import { Ionicons } from '@expo/vector-icons';
+import { Link, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Link, useRouter } from 'expo-router';
-import { useAuth } from '@/contexts/AuthContext';
-import { Ionicons } from '@expo/vector-icons';
-import StunningAlert from '@/components/StunningAlert';
-import InputField from '@/components/InputField';
-import { useFormValidation, emailValidation, passwordValidation } from '@/hooks/useFormValidation';
 
 
 
@@ -28,7 +29,18 @@ export default function LoginScreen() {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorAlertData, setErrorAlertData] = useState({ title: '', message: '' });
   const { login } = useAuth();
+  const { resetLogoutState } = useLogout();
   const router = useRouter();
+
+  // Auto-dismiss success alert when user becomes authenticated
+  useEffect(() => {
+    if (showSuccessAlert) {
+      const timer = setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 2000); // Auto-dismiss after 2 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessAlert]);
 
 
   const { errors, validateAll, clearFieldError } = useFormValidation([
@@ -46,6 +58,7 @@ export default function LoginScreen() {
       const result = await login(email, password);
 
       if (result.success) {
+        resetLogoutState(); // Reset any previous logout state
         setShowSuccessAlert(true);
       } else {
         setErrorAlertData({
@@ -71,7 +84,8 @@ export default function LoginScreen() {
 
   const handleSuccessAlert = () => {
     setShowSuccessAlert(false);
-    router.push('./home');
+    router.push('/')
+    // Let index.tsx handle navigation based on authentication state
   };
 
   const handleErrorAlert = () => {
@@ -167,7 +181,7 @@ export default function LoginScreen() {
         </View>
       </ScrollView>
 
-      {/* <StunningAlert
+      <StunningAlert
         visible={showSuccessAlert}
         title="Welcome Back! 🎉"
         message="You have been successfully logged in. Enjoy your experience!"
@@ -175,7 +189,7 @@ export default function LoginScreen() {
         type="success"
         buttonText="Continue"
         onButtonPress={handleSuccessAlert}
-      /> */}
+      />
 
 
       <StunningAlert

@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
 import StunningAlert from '@/components/StunningAlert';
-import { useAuth } from './AuthContext';
 import { useRouter } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
+import { useAuth } from './AuthContext';
 
 interface LogoutContextType {
   showLogoutAlert: boolean;
@@ -10,6 +9,7 @@ interface LogoutContextType {
   handleLogout: () => void;
   confirmLogout: () => Promise<void>;
   cancelLogout: () => void;
+  resetLogoutState: () => void;
 }
 
 const LogoutContext = createContext<LogoutContextType | undefined>(undefined);
@@ -19,6 +19,12 @@ export function LogoutProvider({ children }: { children: ReactNode }) {
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
+  
+  // Reset logout state on mount to ensure clean state
+  React.useEffect(() => {
+    setIsLoggingOut(false);
+    setShowLogoutAlert(false);
+  }, []);
   
   const handleLogout = () => {
     setShowLogoutAlert(true);
@@ -54,13 +60,19 @@ export function LogoutProvider({ children }: { children: ReactNode }) {
     setShowLogoutAlert(false);
   };
 
+  const resetLogoutState = () => {
+    setIsLoggingOut(false);
+    setShowLogoutAlert(false);
+  };
+
   return (
     <LogoutContext.Provider value={{
       showLogoutAlert,
       isLoggingOut,
       handleLogout,
       confirmLogout,
-      cancelLogout
+      cancelLogout,
+      resetLogoutState
     }}>
       {children}
       {/* Don't render StunningAlert during logout to prevent black screen */}
